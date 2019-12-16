@@ -101,9 +101,21 @@ def load_checkpoint(checkpoint_path, model, optimizer):
     print("Loading checkpoint '{}'".format(checkpoint_path))
     checkpoint_dict = torch.load(checkpoint_path, map_location='cpu')
     model.load_state_dict(checkpoint_dict['state_dict'])
-    optimizer.load_state_dict(checkpoint_dict['optimizer'])
-    learning_rate = checkpoint_dict['learning_rate']
-    iteration = checkpoint_dict['iteration']
+
+    if "optimizer" in checkpoint_dict:
+        optimizer.load_state_dict(checkpoint_dict['optimizer'])
+
+    if "learning_rate" in checkpoint_dict:
+        learning_rate = checkpoint_dict['learning_rate']
+    else:
+        # TODO: Think about. Should we get it from hparams?
+        learning_rate = 1e-3
+
+    if "iteration" in checkpoint_dict:
+        iteration = checkpoint_dict['iteration']
+    else:
+        iteration = 0
+
     print("Loaded checkpoint '{}' from iteration {}" .format(
         checkpoint_path, iteration))
     return model, optimizer, learning_rate, iteration

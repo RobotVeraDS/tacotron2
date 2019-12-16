@@ -1,9 +1,12 @@
 import tensorflow as tf
-from text import symbols
+from text import english_symbols, russian_symbols
 
 
-def create_hparams(hparams_string=None, verbose=False):
+def create_hparams(hparams_string=None, verbose=False, lang="en"):
     """Create model hyperparameters. Parse nondefault from given string."""
+
+    hparams_symbols = russian_symbols if lang == "ru" else english_symbols
+    hparams_cleaners = ["russian_cleaners"] if lang == "ru" else ["english_cleaners"]
 
     hparams = tf.contrib.training.HParams(
         ################################
@@ -27,7 +30,7 @@ def create_hparams(hparams_string=None, verbose=False):
         load_mel_from_disk=False,
         training_files='filelists/ljs_audio_text_train_filelist.txt',
         validation_files='filelists/ljs_audio_text_val_filelist.txt',
-        text_cleaners=['english_cleaners'],
+        text_cleaners=hparams_cleaners,
 
         ################################
         # Audio Parameters             #
@@ -44,7 +47,7 @@ def create_hparams(hparams_string=None, verbose=False):
         ################################
         # Model Parameters             #
         ################################
-        n_symbols=len(symbols),
+        n_symbols=len(hparams_symbols),
         symbols_embedding_dim=512,
 
         # Encoder parameters
