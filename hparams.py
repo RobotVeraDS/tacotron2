@@ -30,6 +30,7 @@ def create_hparams(hparams_string=None, verbose=False, lang="en"):
         load_mel_from_disk=False,
         training_files='filelists/ljs_audio_text_train_filelist.txt',
         validation_files='filelists/ljs_audio_text_val_filelist.txt',
+        audio_files_path='./audios',
         text_cleaners=hparams_cleaners,
 
         ################################

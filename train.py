@@ -39,10 +39,10 @@ def init_distributed(hparams, n_gpus, rank, group_name):
     print("Done initializing distributed")
 
 
-def prepare_dataloaders(hparams):
+def prepare_dataloaders(hparams, lang):
     # Get data, data loaders and collate function ready
-    trainset = TextMelLoader(hparams.training_files, hparams)
-    valset = TextMelLoader(hparams.validation_files, hparams)
+    trainset = TextMelLoader(hparams.training_files, hparams, lang)
+    valset = TextMelLoader(hparams.validation_files, hparams, lang)
     collate_fn = TextMelCollate(hparams.n_frames_per_step)
 
     if hparams.distributed_run:
@@ -159,7 +159,7 @@ def validate(model, criterion, valset, iteration, batch_size, n_gpus,
 
 
 def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
-          rank, group_name, hparams):
+          rank, group_name, hparams, lang):
     """Training and validation logging results to tensorboard and stdout
 
     Params
@@ -195,7 +195,7 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     logger = prepare_directories_and_logger(
         output_directory, log_directory, rank)
 
-    train_loader, valset, collate_fn = prepare_dataloaders(hparams)
+    train_loader, valset, collate_fn = prepare_dataloaders(hparams, lang)
 
     # Load checkpoint if one exists
     iteration = 0
@@ -285,9 +285,11 @@ if __name__ == '__main__':
                         required=False, help='Distributed group name')
     parser.add_argument('--hparams', type=str,
                         required=False, help='comma separated name=value pairs')
+    parser.add_argument('--lang', default="ru", choices=["ru", "en"],
+                        required=True, help='model language')
 
     args = parser.parse_args()
-    hparams = create_hparams(args.hparams)
+    hparams = create_hparams(args.hparams, lang=args.lang)
 
     torch.backends.cudnn.enabled = hparams.cudnn_enabled
     torch.backends.cudnn.benchmark = hparams.cudnn_benchmark
@@ -299,4 +301,5 @@ if __name__ == '__main__':
     print("cuDNN Benchmark:", hparams.cudnn_benchmark)
 
     train(args.output_directory, args.log_directory, args.checkpoint_path,
-          args.warm_start, args.n_gpus, args.rank, args.group_name, hparams)
+          args.warm_start, args.n_gpus, args.rank, args.group_name, hparams,
+          args.lang)
