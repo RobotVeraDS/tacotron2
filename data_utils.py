@@ -15,7 +15,8 @@ class TextMelLoader(torch.utils.data.Dataset):
         3) computes mel-spectrograms from audio files.
     """
     def __init__(self, audiopaths_and_text, hparams, lang):
-        self.audiopaths_and_text = load_filepaths_and_text(audiopaths_and_text)
+        self.audiopaths_and_text = load_filepaths_and_text(hparams.audio_files_path,
+                                                           audiopaths_and_text)
         self.text_cleaners = hparams.text_cleaners
         self.lang = lang
         self.max_wav_value = hparams.max_wav_value
@@ -55,7 +56,7 @@ class TextMelLoader(torch.utils.data.Dataset):
         return melspec
 
     def get_text(self, text):
-        text_norm = torch.IntTensor(text_to_sequence(text, self.text_cleaners, lang))
+        text_norm = torch.IntTensor(text_to_sequence(text, self.text_cleaners, self.lang))
         return text_norm
 
     def __getitem__(self, index):

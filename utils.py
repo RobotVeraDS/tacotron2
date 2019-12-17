@@ -1,4 +1,5 @@
 import numpy as np
+import os
 from scipy.io.wavfile import read
 import torch
 
@@ -15,9 +16,13 @@ def load_wav_to_torch(full_path):
     return torch.FloatTensor(data.astype(np.float32)), sampling_rate
 
 
-def load_filepaths_and_text(filename, split="|"):
+def load_filepaths_and_text(audio_files_path, filename, split="|"):
     with open(filename, encoding='utf-8') as f:
-        filepaths_and_text = [line.strip().split(split) for line in f]
+        filepaths_and_text = []
+        for line in f:
+            filename, text = line.strip().split(split)
+            filepath = os.path.join(audio_files_path, filename)
+            filepaths_and_text.append((filepath, text))
     return filepaths_and_text
 
 
