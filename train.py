@@ -3,6 +3,7 @@ import time
 import argparse
 import math
 from numpy import finfo
+import uuid
 
 import torch
 from distributed import apply_gradient_allreduce
@@ -212,6 +213,13 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
             iteration += 1  # next iteration is iteration + 1
             epoch_offset = max(0, int(iteration / len(train_loader)))
 
+    # number of viewed samples
+    viewed_samples = 0
+
+    # random 4 alphanumeric unique code
+    train_uid = uuid.uuid4().hex[-8:]
+    print("Train unique uid:", train_uid)
+
     model.train()
     is_overflow = False
     # ================ MAIN TRAINNIG LOOP! ===================
@@ -260,11 +268,14 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
                          hparams.distributed_run, rank)
                 if rank == 0:
                     checkpoint_path = os.path.join(
-                        output_directory, "checkpoint_{}".format(iteration))
+                        output_directory,
+                        "taco_{}_{}".format(train_uid, str(viewed_samples).zfill(10))
+                    )
                     save_checkpoint(model, optimizer, learning_rate, iteration,
                                     checkpoint_path)
 
             iteration += 1
+            viewed_samples += hparams.batch_size
 
 
 if __name__ == '__main__':
