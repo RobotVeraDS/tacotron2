@@ -220,8 +220,10 @@ def train(output_directory, log_directory, checkpoint_path, warm_start, n_gpus,
     train_uid = uuid.uuid4().hex[-8:]
     print("Train unique uid:", train_uid)
 
+
     model.train()
     is_overflow = False
+    print("Start")
     # ================ MAIN TRAINNIG LOOP! ===================
     for epoch in range(epoch_offset, hparams.epochs):
         print("Epoch: {}".format(epoch))
@@ -296,7 +298,7 @@ if __name__ == '__main__':
                         required=False, help='Distributed group name')
     parser.add_argument('--hparams', type=str,
                         required=False, help='comma separated name=value pairs')
-    parser.add_argument('--lang', default="ru", choices=["ru", "en"],
+    parser.add_argument('--lang', default="ru", choices=["ru", "en", "es"],
                         required=True, help='model language')
 
     args = parser.parse_args()

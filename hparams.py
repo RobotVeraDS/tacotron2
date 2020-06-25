@@ -1,18 +1,23 @@
 import tensorflow as tf
-from text import english_symbols, russian_symbols
+from text import english_symbols, russian_symbols, spanish_symbols
 
 
 def create_hparams(hparams_string=None, verbose=False, lang="en"):
     """Create model hyperparameters. Parse nondefault from given string."""
 
-    hparams_symbols = russian_symbols if lang == "ru" else english_symbols
+    hparams_symbols = russian_symbols
+    if lang == "es":
+        hparams_symbols = spanish_symbols
+    else:
+        hparams_symbols = english_symbols
+
     hparams_cleaners = ["russian_cleaners"] if lang == "ru" else ["english_cleaners"]
 
     hparams = tf.contrib.training.HParams(
         ################################
         # Experiment Parameters        #
         ################################
-        epochs=10000,
+        epochs=1000000,
         iters_per_checkpoint=1000,
         seed=1234,
         dynamic_loss_scaling=True,

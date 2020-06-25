@@ -1,7 +1,7 @@
 """ from https://github.com/keithito/tacotron """
 import re
 from text import cleaners
-from text.symbols import english_symbols, russian_symbols
+from text.symbols import english_symbols, russian_symbols, spanish_symbols
 
 
 # Mappings from symbol to numeric ID and vice versa:
@@ -9,8 +9,11 @@ _english_symbol_to_id = {s: i for i, s in enumerate(english_symbols)}
 _english_id_to_symbol = {i: s for i, s in enumerate(english_symbols)}
 
 # Mappings from symbol to numeric ID and vice versa:
-_russan_symbol_to_id = {s: i for i, s in enumerate(russian_symbols)}
+_russian_symbol_to_id = {s: i for i, s in enumerate(russian_symbols)}
 _russian_id_to_symbol = {i: s for i, s in enumerate(russian_symbols)}
+
+_spanish_symbol_to_id = {s: i for i, s in enumerate(spanish_symbols)}
+_spanish_id_to_symbol = {i: s for i, s in enumerate(spanish_symbols)}
 
 # Regular expression matching text enclosed in curly braces:
 _curly_re = re.compile(r'(.*?)\{(.+?)\}(.*)')
@@ -46,7 +49,14 @@ def text_to_sequence(text, cleaner_names, lang="en"):
 
 def sequence_to_text(sequence, lang="en"):
   '''Converts a sequence of IDs back to a string'''
-  __id_to_symbol = _english_id_to_symbol if lang == "en" else _russian_id_to_symbol
+
+  __id_to_symbol = _english_id_to_symbol
+  if lang == "es":
+    __id_to_symbol = _spanish_id_to_symbol
+  else:
+    __id_to_symbol = _russian_id_to_symbol
+
+
   result = ''
   for symbol_id in sequence:
     if symbol_id in __id_to_symbol:
@@ -68,7 +78,12 @@ def _clean_text(text, cleaner_names):
 
 
 def _symbols_to_sequence(symbols, lang="en"):
-  __symbol_to_id = _english_symbol_to_id if lang == "en" else _russan_symbol_to_id
+  __symbol_to_id = _english_symbol_to_id
+  if lang == "es":
+    __symbol_to_id = _spanish_symbol_to_id
+  else:
+    __symbol_to_id = _russian_symbol_to_id
+
   return [__symbol_to_id[s] for s in symbols if _should_keep_symbol(s, lang)]
 
 
@@ -77,5 +92,10 @@ def _arpabet_to_sequence(text):
 
 
 def _should_keep_symbol(s, lang="en"):
-  __symbol_to_id = _english_symbol_to_id if lang == "en" else _russan_symbol_to_id
+  __symbol_to_id = _english_symbol_to_id
+  if lang == "es":
+    __symbol_to_id = _spanish_symbol_to_id
+  else:
+    __symbol_to_id = _russian_symbol_to_id
+
   return s in __symbol_to_id and s is not '_' and s is not '~'

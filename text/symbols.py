@@ -28,3 +28,12 @@ _letters = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
 _commands = '+#$%^&*'
 
 russian_symbols = [_pad] + list(_punctuation) + list(_letters) + list(_commands)
+
+# spanish
+_pad        = '_'
+_punctuation = '!\'(),.:;?- '
+_letters = 'abcdefghijklmnopqrstuvwxyz¡¿áåæèéëíîñóöúü'
+
+_commands = '+#$%^&*'
+
+spanish_symbols = [_pad] + list(_punctuation) + list(_letters) + list(_commands)
