@@ -50,8 +50,10 @@ def text_to_sequence(text, cleaner_names, lang="en"):
 def sequence_to_text(sequence, lang="en"):
   '''Converts a sequence of IDs back to a string'''
 
-  __id_to_symbol = _english_id_to_symbol
-  if lang == "es":
+  __id_to_symbol = None
+  if lang == "en":
+    __id_to_symbol = _english_id_to_symbol
+  elif lang == "es":
     __id_to_symbol = _spanish_id_to_symbol
   else:
     __id_to_symbol = _russian_id_to_symbol
@@ -78,8 +80,10 @@ def _clean_text(text, cleaner_names):
 
 
 def _symbols_to_sequence(symbols, lang="en"):
-  __symbol_to_id = _english_symbol_to_id
-  if lang == "es":
+  __symbol_to_id = None
+  if lang == "en":
+    __symbol_to_id = _english_symbol_to_id
+  elif lang == "es":
     __symbol_to_id = _spanish_symbol_to_id
   else:
     __symbol_to_id = _russian_symbol_to_id
@@ -92,8 +96,10 @@ def _arpabet_to_sequence(text):
 
 
 def _should_keep_symbol(s, lang="en"):
-  __symbol_to_id = _english_symbol_to_id
-  if lang == "es":
+  __symbol_to_id = None
+  if lang == "en":
+    __symbol_to_id = _english_symbol_to_id
+  elif lang == "es":
     __symbol_to_id = _spanish_symbol_to_id
   else:
     __symbol_to_id = _russian_symbol_to_id

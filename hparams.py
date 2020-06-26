@@ -5,8 +5,10 @@ from text import english_symbols, russian_symbols, spanish_symbols
 def create_hparams(hparams_string=None, verbose=False, lang="en"):
     """Create model hyperparameters. Parse nondefault from given string."""
 
-    hparams_symbols = russian_symbols
-    if lang == "es":
+    hparams_symbols = None
+    if lang == "ru":
+        hparams_symbols = russian_symbols
+    elif lang == "es":
         hparams_symbols = spanish_symbols
     else:
         hparams_symbols = english_symbols
