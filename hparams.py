@@ -2,7 +2,7 @@ import tensorflow as tf
 from text import english_symbols, russian_symbols, spanish_symbols
 
 
-def create_hparams(hparams_string=None, verbose=False, lang="en"):
+def create_hparams(hparams_string=None, verbose=False, lang="en", max_decoder_steps=4000):
     """Create model hyperparameters. Parse nondefault from given string."""
 
     hparams_symbols = None
@@ -67,7 +67,7 @@ def create_hparams(hparams_string=None, verbose=False, lang="en"):
         n_frames_per_step=1,  # currently only 1 is supported
         decoder_rnn_dim=1024,
         prenet_dim=256,
-        max_decoder_steps=1000,
+        max_decoder_steps=max_decoder_steps,
         gate_threshold=0.5,
         p_attention_dropout=0.1,
         p_decoder_dropout=0.1,
