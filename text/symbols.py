@@ -37,3 +37,13 @@ _letters = 'abcdefghijklmnopqrstuvwxyz¡¿áåæèéëíîñóöúü'
 _commands = '+#$%^&*'
 
 spanish_symbols = [_pad] + list(_punctuation) + list(_letters) + list(_commands)
+
+
+# french
+
+_pad        = '_'
+_punctuation = '!\'(),.:;?- '
+_letters = 'abcdefghijklmnopqrstuvwxyzàâæçèéêëîïôùûœ'
+_commands = '+#$%^&*'
+
+french_symbols = [_pad] + list(_punctuation) + list(_letters) + list(_commands)

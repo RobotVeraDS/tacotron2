@@ -1,5 +1,5 @@
 import tensorflow as tf
-from text import english_symbols, russian_symbols, spanish_symbols
+from text import english_symbols, russian_symbols, spanish_symbols, french_symbols
 
 
 def create_hparams(hparams_string=None, verbose=False, lang="en", max_decoder_steps=4000):
@@ -10,6 +10,8 @@ def create_hparams(hparams_string=None, verbose=False, lang="en", max_decoder_st
         hparams_symbols = russian_symbols
     elif lang == "es":
         hparams_symbols = spanish_symbols
+    elif lang == "fr":
+        hparams_symbols = french_symbols
     else:
         hparams_symbols = english_symbols
 

@@ -298,7 +298,7 @@ if __name__ == '__main__':
                         required=False, help='Distributed group name')
     parser.add_argument('--hparams', type=str,
                         required=False, help='comma separated name=value pairs')
-    parser.add_argument('--lang', default="ru", choices=["ru", "en", "es"],
+    parser.add_argument('--lang', default="ru", choices=["ru", "en", "es", "fr"],
                         required=True, help='model language')
 
     args = parser.parse_args()

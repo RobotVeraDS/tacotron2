@@ -1,7 +1,7 @@
 """ from https://github.com/keithito/tacotron """
 import re
 from text import cleaners
-from text.symbols import english_symbols, russian_symbols, spanish_symbols
+from text.symbols import english_symbols, russian_symbols, spanish_symbols, french_symbols
 
 
 # Mappings from symbol to numeric ID and vice versa:
@@ -14,6 +14,9 @@ _russian_id_to_symbol = {i: s for i, s in enumerate(russian_symbols)}
 
 _spanish_symbol_to_id = {s: i for i, s in enumerate(spanish_symbols)}
 _spanish_id_to_symbol = {i: s for i, s in enumerate(spanish_symbols)}
+
+_french_symbol_to_id = {s: i for i, s in enumerate(french_symbols)}
+_french_id_to_symbol = {i: s for i, s in enumerate(french_symbols)}
 
 # Regular expression matching text enclosed in curly braces:
 _curly_re = re.compile(r'(.*?)\{(.+?)\}(.*)')
@@ -55,6 +58,8 @@ def sequence_to_text(sequence, lang="en"):
     __id_to_symbol = _english_id_to_symbol
   elif lang == "es":
     __id_to_symbol = _spanish_id_to_symbol
+  elif lang == "fr":
+    __id_to_symbol = _french_id_to_symbol
   else:
     __id_to_symbol = _russian_id_to_symbol
 
@@ -85,6 +90,8 @@ def _symbols_to_sequence(symbols, lang="en"):
     __symbol_to_id = _english_symbol_to_id
   elif lang == "es":
     __symbol_to_id = _spanish_symbol_to_id
+  elif lang == "fr":
+    __symbol_to_id = _french_symbol_to_id
   else:
     __symbol_to_id = _russian_symbol_to_id
 
@@ -101,6 +108,8 @@ def _should_keep_symbol(s, lang="en"):
     __symbol_to_id = _english_symbol_to_id
   elif lang == "es":
     __symbol_to_id = _spanish_symbol_to_id
+  elif lang == "fr":
+    __symbol_to_id = _french_symbol_to_id
   else:
     __symbol_to_id = _russian_symbol_to_id
 
