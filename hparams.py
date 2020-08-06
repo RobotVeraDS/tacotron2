@@ -22,6 +22,7 @@ def create_hparams(hparams_string=None, verbose=False, lang="en", max_decoder_st
         # Experiment Parameters        #
         ################################
         epochs=1000000,
+        max_viewed_samples=80000,
         iters_per_checkpoint=1000,
         seed=1234,
         dynamic_loss_scaling=True,
