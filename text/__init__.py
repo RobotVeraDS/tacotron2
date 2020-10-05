@@ -22,7 +22,7 @@ _french_id_to_symbol = {i: s for i, s in enumerate(french_symbols)}
 _curly_re = re.compile(r'(.*?)\{(.+?)\}(.*)')
 
 
-def text_to_sequence(text, cleaner_names, lang="en"):
+def text_to_sequence(text, cleaner_names, lang="en", return_text=False):
   '''Converts a string of text to a sequence of IDs corresponding to the symbols in the text.
 
     The text can optionally have ARPAbet sequences enclosed in curly braces embedded
@@ -36,18 +36,24 @@ def text_to_sequence(text, cleaner_names, lang="en"):
       List of integers corresponding to the symbols in the text
   '''
   sequence = []
+  full_cleaned_text = ""
 
   # Check for curly braces and treat their contents as ARPAbet:
   while len(text):
     m = _curly_re.match(text)
     if not m:
-      sequence += _symbols_to_sequence(_clean_text(text, cleaner_names), lang)
+      cleaned_text = _clean_text(text, cleaner_names)
+      full_cleaned_text += cleaned_text
+      sequence += _symbols_to_sequence(cleaned_text, lang)
       break
     sequence += _symbols_to_sequence(_clean_text(m.group(1), cleaner_names), lang)
     sequence += _arpabet_to_sequence(m.group(2))
     text = m.group(3)
 
-  return sequence
+  if return_text:
+    return sequence, full_cleaned_text
+  else:
+    return sequence
 
 
 def sequence_to_text(sequence, lang="en"):
